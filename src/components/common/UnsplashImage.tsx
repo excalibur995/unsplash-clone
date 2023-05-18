@@ -37,7 +37,7 @@ const UnsplashImage = (props: UnsplashImageProps) => {
         </section>
         <Image
           src={urls.regular}
-          alt={alt_description}
+          alt={alt_description ?? "Images"}
           placeholder="blur"
           blurDataURL={urls.full}
           width={width}
