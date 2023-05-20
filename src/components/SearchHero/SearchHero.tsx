@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import { RandomPhoto } from "~/@types";
 import Input from "../common/Input";
 
@@ -18,9 +20,15 @@ const searchIcon = (
 );
 
 const SearchHero = (props: RandomPhoto) => {
+  const [query, setQuery] = useState("");
+  const { push } = useRouter();
+  const onSubmit = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    push("/s/" + query);
+  };
   return (
-    <div className="relative aspect-video w-full max-h-[594px] overflow-hidden">
-      <section className="brightness-50 absolute -z-[1] w-screen h-[594px]">
+    <div className="relative aspect-video w-full max-h-[594px] bg-black overflow-hidden">
+      <section className="brightness-50 absolute w-screen h-[594px]">
         <Image
           src={props.urls.full}
           alt="Image of the Day"
@@ -29,20 +37,25 @@ const SearchHero = (props: RandomPhoto) => {
           placeholder="blur"
           sizes="100vw"
           blurDataURL={props.urls.thumb}
+          priority
         />
       </section>
-      <section className="z-50 text-white flex flex-col justify-center items-center h-full  mx-auto p-4">
+      <section className="bg-transparent relative text-white flex flex-col justify-center items-center mx-auto h-full p-4">
         <section className="flex flex-col gap-4 max-w-xl w-full">
-          <h1 className="font-bold text-3xl">Unsplash</h1>
+          <h1 className="font-bold text-5xl">Unsplash</h1>
           <section className="text-sm">
             <p>The internet’s source for visuals.</p>
             <p>Powered by creators everywhere.</p>
           </section>
-          <Input
-            className="hidden md:flex"
-            prefix={searchIcon}
-            placeholder="Search High Resolution Image"
-          />
+          <form onSubmit={onSubmit} className="hidden sm:block">
+            <Input
+              value={query}
+              prefix={searchIcon}
+              placeholder="Search High Resolution Image"
+              onChange={(e) => setQuery(e.target.value)}
+              required
+            />
+          </form>
         </section>
       </section>
     </div>

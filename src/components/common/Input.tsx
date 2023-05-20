@@ -31,7 +31,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
         })}
       <input
         ref={ref}
-        className="w-full border-none bg-transparent outline-none placeholder:text-sm placeholder:text-[#C4C4C4] dark:text-white dark:placeholder:text-zinc-400"
+        className="w-full border-none bg-transparent outline-none placeholder:text-sm placeholder:text-[#C4C4C4]"
         {...rest}
       />
       {suffix && suffix}

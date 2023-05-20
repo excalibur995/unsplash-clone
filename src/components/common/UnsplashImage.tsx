@@ -1,14 +1,14 @@
 import Image from "next/image";
 import { ImageResponse } from "~/@types";
 
-type UnsplashImageProps = Pick<
+export type UnsplashImageProps = Pick<
   ImageResponse,
   "urls" | "alt_description" | "height" | "width" | "user"
 >;
 
 const UserSection = ({ user }: Pick<UnsplashImageProps, "user">) => {
   return (
-    <div className="flex flex-row gap-4 z-40 items-center text-white">
+    <div className="flex flex-row gap-4 z-40 items-center text-white w-fit p-4">
       <Image
         src={user.profile_image.small}
         alt={user.name}
@@ -28,11 +28,11 @@ const UnsplashImage = (props: UnsplashImageProps) => {
   const { urls, alt_description, height, width, user } = props;
   return (
     <>
-      <section className="bg-white p-4 [&>*]:text-black md:hidden">
+      <section className="bg-white [&>*]:text-black md:hidden">
         <UserSection user={user} />
       </section>
       <figure className="relative overflow-hidden cursor-zoom-in lg:hover:brightness-75 transition-all [&>section]:hover:visible">
-        <section className="lg:inline hidden absolute z-20 bottom-4 right-2 left-2 invisible">
+        <section className="lg:inline hidden absolute z-20 bottom-0 left-0 invisible">
           <UserSection user={user} />
         </section>
         <Image

@@ -171,3 +171,7 @@ export interface RandomPhoto {
   downloads: number;
   topics: any[];
 }
+
+export interface SearchResult {
+  results: ImageResponse[];
+}

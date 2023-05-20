@@ -2,9 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
 body {
   min-height: 100vh;
-  background: #fff;
+  background: #fff!;
+  font-family: "DM Sans", sans-serif;
 
   .vignette {
     @apply fixed top-0 left-0 w-full h-full;

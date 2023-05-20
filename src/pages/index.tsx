@@ -1,11 +1,10 @@
 import { InferGetServerSidePropsType } from "next";
+import InfiniteImages from "~/components/Images/InfitiImages";
 import SearchHero from "~/components/SearchHero/SearchHero";
-import Grid from "~/components/common/Grid";
-import UnsplashImage from "~/components/common/UnsplashImage";
 import { getPhotos, getRandomPhotos } from "~/lib/network";
 
 export async function getServerSideProps() {
-  const data = await getPhotos();
+  const data = await getPhotos({});
   const random = await getRandomPhotos();
   return {
     props: {
@@ -24,11 +23,7 @@ export default function Home(
         <SearchHero {...props.random} />
       </div>
       <div className="container mx-auto">
-        <Grid>
-          {props.data.map((images, i) => (
-            <UnsplashImage {...images} key={images.id + i} />
-          ))}
-        </Grid>
+        <InfiniteImages queryFn={getPhotos} queryKey="infiteSearchPhotos" />
       </div>
     </main>
   );
