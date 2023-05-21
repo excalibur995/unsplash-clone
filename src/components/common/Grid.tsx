@@ -3,11 +3,17 @@ import "lightbox.js-react/dist/index.css";
 import React, { PropsWithChildren, useEffect } from "react";
 
 function propsToImagesChildren(children: React.ReactNode) {
-  const images = React.Children.map(children, (v) => ({
-    src: v?.props?.urls?.regular ?? "",
-    alt: v?.props?.alt_description ?? "Image Alt",
-  }));
-  return images;
+  const images = React.Children.map(children, (child) => {
+    if (React.isValidElement(child)) {
+      return {
+        src: child.props.urls?.regular ?? "",
+        alt: child.props.alt_description ?? "Image Alt",
+      };
+    }
+    return null;
+  })?.filter((image) => image !== null);
+
+  return images ?? [];
 }
 
 const Grid = (props: PropsWithChildren) => {
