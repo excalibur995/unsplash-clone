@@ -46,7 +46,11 @@ const InfiniteImages = ({
           })}
         </Grid>
       </section>
-      {fetchStatus === "idle" && <button ref={ref}>test</button>}
+      {fetchStatus === "idle" && (
+        <button className="invisible" ref={ref}>
+          test
+        </button>
+      )}
     </>
   );
 };

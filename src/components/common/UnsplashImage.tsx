@@ -42,6 +42,7 @@ const UnsplashImage = (props: UnsplashImageProps) => {
           blurDataURL={urls.full}
           width={width}
           height={height}
+          data-lightboxjs="lightbox1"
         />
       </figure>
     </>

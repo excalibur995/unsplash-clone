@@ -47,7 +47,7 @@ const SearchHero = (props: RandomPhoto) => {
             <p>The internet’s source for visuals.</p>
             <p>Powered by creators everywhere.</p>
           </section>
-          <form onSubmit={onSubmit} className="hidden sm:block">
+          <form onSubmit={onSubmit}>
             <Input
               value={query}
               prefix={searchIcon}
