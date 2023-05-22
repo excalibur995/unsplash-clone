@@ -49,7 +49,7 @@ const UserSection = ({
           onSaveImage={onSaveImage}
           liked={liked}
         />
-        <ShareButton links={rest.links} />
+        {rest.links?.html && <ShareButton links={rest.links} />}
       </section>
     </div>
   );
