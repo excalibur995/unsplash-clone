@@ -4,9 +4,11 @@ import { ImageResponse } from "~/@types";
 import useLikedImageStorage from "~/lib/hooks/useLikedImageStorage";
 import LikedButton from "../Images/LikedButton";
 
+import ShareButton from "../Images/ShareButton";
+
 export type UnsplashImageProps = Pick<
   ImageResponse,
-  "urls" | "alt_description" | "height" | "width" | "user" | "id"
+  "urls" | "alt_description" | "height" | "width" | "user" | "id" | "links"
 >;
 
 const UserSection = ({
@@ -39,7 +41,7 @@ const UserSection = ({
           {user.for_hire && <div className="text-xs">Available for hire</div>}
         </div>
       </section>
-      <section className="flex flex-col w-fit">
+      <section className="flex flex-row items-center gap-4 ">
         <LikedButton
           {...rest}
           user={user}
@@ -47,6 +49,7 @@ const UserSection = ({
           onSaveImage={onSaveImage}
           liked={liked}
         />
+        <ShareButton links={rest.links} />
       </section>
     </div>
   );
@@ -55,7 +58,7 @@ const UserSection = ({
 const UnsplashImage = (
   props: UnsplashImageProps & { onCallback?: () => void }
 ) => {
-  const { urls, alt_description, height, width, user, id } = props;
+  const { urls, alt_description, height, width, user, id, links } = props;
   const { onGetSpesificImages, forceUpdate } = useLikedImageStorage();
 
   const forceCallback = () => {
@@ -67,7 +70,7 @@ const UnsplashImage = (
     <>
       <section className="bg-white [&>*]:text-black md:hidden">
         <UserSection
-          data={{ urls, alt_description, height, width, user, id }}
+          data={{ urls, alt_description, height, width, user, id, links }}
           onCallback={forceCallback}
           liked={onGetSpesificImages(id)?.id === id}
         />
@@ -75,7 +78,7 @@ const UnsplashImage = (
       <section className="relative overflow-hidden ">
         <section className=" md:inline hidden absolute z-20 bottom-0 left-0 right-0  section-item">
           <UserSection
-            data={{ urls, alt_description, height, width, user, id }}
+            data={{ urls, alt_description, height, width, user, id, links }}
             onCallback={forceCallback}
             liked={onGetSpesificImages(id)?.id === id}
           />

@@ -1,15 +1,9 @@
 import clsx from "clsx";
-import { ImageResponse } from "~/@types";
 import useIsClient from "~/lib/hooks/useClient";
 import { UnsplashImageProps } from "../common/UnsplashImage";
 
-type LikedButtonProps = Pick<
-  ImageResponse,
-  "urls" | "alt_description" | "height" | "width" | "user" | "id"
->;
-
 const LikedButton = (
-  props: LikedButtonProps & {
+  props: UnsplashImageProps & {
     onCallback?: () => void;
     liked?: boolean;
     onSaveImage?: (image: UnsplashImageProps) => void;
@@ -26,7 +20,7 @@ const LikedButton = (
     return (
       <div
         onClick={onSavedLikeData}
-        className="p-1 bg-white border border-zinc-200 rounded-lg cursor-pointer active:translate-y-1 transition-all"
+        className="p-1 bg-white border border-zinc-200 rounded-lg cursor-pointer active:translate-y-1 transition-all min-w-[24px] min-h-[24px]"
       >
         <svg
           width="24"
