@@ -1,8 +1,8 @@
 import Image from "next/image";
 import { ImageResponse } from "~/@types";
 
+import useLikedImageStorage from "~/lib/hooks/useLikedImageStorage";
 import LikedButton from "../Images/LikedButton";
-const LIKED_IMAGE_KEY = process.env.NEXT_PUBLIC_IMAGE_STORAGE!;
 
 export type UnsplashImageProps = Pick<
   ImageResponse,
@@ -12,11 +12,15 @@ export type UnsplashImageProps = Pick<
 const UserSection = ({
   data,
   onCallback,
+  liked,
 }: {
   data: UnsplashImageProps;
   onCallback?: () => void;
+  liked?: boolean;
 }) => {
   const { user, ...rest } = data;
+
+  const { onSaveImage } = useLikedImageStorage();
 
   return (
     <div className="flex flex-row gap-4 z-40 items-center justify-between text-white w-full p-4">
@@ -36,7 +40,13 @@ const UserSection = ({
         </div>
       </section>
       <section className="flex flex-col w-fit">
-        <LikedButton {...rest} user={user} onCallback={onCallback} />
+        <LikedButton
+          {...rest}
+          user={user}
+          onCallback={onCallback}
+          onSaveImage={onSaveImage}
+          liked={liked}
+        />
       </section>
     </div>
   );
@@ -46,22 +56,31 @@ const UnsplashImage = (
   props: UnsplashImageProps & { onCallback?: () => void }
 ) => {
   const { urls, alt_description, height, width, user, id } = props;
+  const { onGetSpesificImages, forceUpdate } = useLikedImageStorage();
+
+  const forceCallback = () => {
+    props?.onCallback?.();
+    forceUpdate();
+  };
+
   return (
     <>
       <section className="bg-white [&>*]:text-black md:hidden">
         <UserSection
           data={{ urls, alt_description, height, width, user, id }}
-          onCallback={props.onCallback}
+          onCallback={forceCallback}
+          liked={onGetSpesificImages(id)?.id === id}
         />
       </section>
-      <section className="relative overflow-hidden  [&>section]:hover:visible">
-        <section className="lg:inline hidden absolute z-20 bottom-0 left-0 right-0 invisible section-item">
+      <section className="relative overflow-hidden ">
+        <section className=" md:inline hidden absolute z-20 bottom-0 left-0 right-0  section-item">
           <UserSection
             data={{ urls, alt_description, height, width, user, id }}
-            onCallback={props.onCallback}
+            onCallback={forceCallback}
+            liked={onGetSpesificImages(id)?.id === id}
           />
         </section>
-        <figure className="lg:hover:brightness-50 transition-all">
+        <figure className="brightness-75  lg:hover:brightness-50 transition-all">
           <Image
             src={urls.regular}
             alt={alt_description ?? "Images"}

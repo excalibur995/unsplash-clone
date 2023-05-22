@@ -1,22 +1,24 @@
 import clsx from "clsx";
 import { ImageResponse } from "~/@types";
 import useIsClient from "~/lib/hooks/useClient";
-import useLikedImageStorage from "~/lib/hooks/useLikedImageStorage";
+import { UnsplashImageProps } from "../common/UnsplashImage";
 
 type LikedButtonProps = Pick<
   ImageResponse,
   "urls" | "alt_description" | "height" | "width" | "user" | "id"
 >;
 
-const LikedButton = (props: LikedButtonProps & { onCallback?: () => void }) => {
+const LikedButton = (
+  props: LikedButtonProps & {
+    onCallback?: () => void;
+    liked?: boolean;
+    onSaveImage?: (image: UnsplashImageProps) => void;
+  }
+) => {
   const isClient = useIsClient();
 
-  const { onGetSpesificImages, onSaveImage } = useLikedImageStorage();
-
-  const liked = onGetSpesificImages(props.id);
-
   const onSavedLikeData = () => {
-    onSaveImage(props);
+    props?.onSaveImage?.(props);
     props?.onCallback?.();
   };
 
@@ -29,7 +31,7 @@ const LikedButton = (props: LikedButtonProps & { onCallback?: () => void }) => {
         <svg
           width="24"
           height="24"
-          className={clsx({ "fill-red-500": liked?.id === props.id })}
+          className={clsx({ "fill-red-500": props.liked })}
           viewBox="0 0 24 24"
           version="1.1"
           aria-hidden="false"
