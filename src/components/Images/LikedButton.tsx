@@ -17,6 +17,7 @@ const LikedButton = (props: LikedButtonProps & { onCallback?: () => void }) => {
 
   const onSavedLikeData = () => {
     onSaveImage(props);
+    props?.onCallback?.();
   };
 
   if (isClient) {

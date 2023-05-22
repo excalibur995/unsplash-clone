@@ -9,7 +9,13 @@ export type UnsplashImageProps = Pick<
   "urls" | "alt_description" | "height" | "width" | "user" | "id"
 >;
 
-const UserSection = ({ data }: { data: UnsplashImageProps }) => {
+const UserSection = ({
+  data,
+  onCallback,
+}: {
+  data: UnsplashImageProps;
+  onCallback?: () => void;
+}) => {
   const { user, ...rest } = data;
 
   return (
@@ -30,25 +36,29 @@ const UserSection = ({ data }: { data: UnsplashImageProps }) => {
         </div>
       </section>
       <section className="flex flex-col w-fit">
-        <LikedButton {...rest} user={user} />
+        <LikedButton {...rest} user={user} onCallback={onCallback} />
       </section>
     </div>
   );
 };
 
-const UnsplashImage = (props: UnsplashImageProps) => {
+const UnsplashImage = (
+  props: UnsplashImageProps & { onCallback?: () => void }
+) => {
   const { urls, alt_description, height, width, user, id } = props;
   return (
     <>
       <section className="bg-white [&>*]:text-black md:hidden">
         <UserSection
           data={{ urls, alt_description, height, width, user, id }}
+          onCallback={props.onCallback}
         />
       </section>
       <section className="relative overflow-hidden  [&>section]:hover:visible">
         <section className="lg:inline hidden absolute z-20 bottom-0 left-0 right-0 invisible section-item">
           <UserSection
             data={{ urls, alt_description, height, width, user, id }}
+            onCallback={props.onCallback}
           />
         </section>
         <figure className="lg:hover:brightness-50 transition-all">

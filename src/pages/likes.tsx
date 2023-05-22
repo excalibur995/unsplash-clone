@@ -3,8 +3,7 @@ import UnsplashImage from "~/components/common/UnsplashImage";
 import useLikedImageStorage from "~/lib/hooks/useLikedImageStorage";
 
 const LikesPage = () => {
-  const { images, update } = useLikedImageStorage();
-  console.log(update);
+  const { images, forceUpdate } = useLikedImageStorage();
   return (
     <main className="container mx-auto">
       <div className="p-4">
@@ -14,7 +13,13 @@ const LikesPage = () => {
       </div>
       <Grid>
         {images?.map((image, i) => {
-          return <UnsplashImage {...image} key={image.id + i} />;
+          return (
+            <UnsplashImage
+              {...image}
+              key={image.id + i}
+              onCallback={forceUpdate}
+            />
+          );
         })}
       </Grid>
     </main>

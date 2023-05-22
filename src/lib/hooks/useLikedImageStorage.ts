@@ -6,13 +6,16 @@ import { UnsplashImageProps } from "~/components/common/UnsplashImage";
 function useLikedImageStorage() {
   const [images, setImages] = useState<UnsplashImageProps[]>([]);
   const [update, setUpdate] = useState(false);
+
+  const forceUpdate = () => setUpdate((prev) => !prev);
+
   useEffect(() => {
     const image = localStorage.getItem(LIKED_IMAGE_KEY);
     if (image !== null) {
       const parseImage = JSON.parse(image);
       setImages(parseImage);
     }
-  }, []);
+  }, [update]);
 
   const onSaveImage = (item: UnsplashImageProps) => {
     const images = localStorage.getItem(LIKED_IMAGE_KEY);
@@ -25,14 +28,13 @@ function useLikedImageStorage() {
     }
     localStorage.setItem(LIKED_IMAGE_KEY, JSON.stringify(parsedImages));
     setImages(parsedImages);
-    setUpdate((prev) => !prev);
   };
 
   const onGetSpesificImages = (item: string) => {
     return images.find((image) => image.id === item);
   };
 
-  return { images, onSaveImage, onGetSpesificImages, update };
+  return { images, onSaveImage, onGetSpesificImages, forceUpdate };
 }
 
 export default useLikedImageStorage;
