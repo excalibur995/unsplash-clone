@@ -6,8 +6,8 @@ function propsToImagesChildren(children: React.ReactNode) {
   const images = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
       return {
-        src: child.props.urls?.regular ?? "",
-        alt: child.props.alt_description ?? "Image Alt",
+        src: child?.props?.urls?.regular ?? "",
+        alt: child?.props?.alt_description ?? "Image Alt",
       };
     }
     return null;
